@@ -12,7 +12,8 @@ class AgendaController extends Controller
     {
         if (auth()->user()->tipo === 'secretaria') {
             $pacientes = Patient::all();
-            return view('secretaria.pacientes', compact('pacientes'));
+            $servicios = Servicio::all();
+            return view('secretaria.pacientes', compact('pacientes','servicios'));
         } elseif (auth()->user()->tipo === 'doctor') {
             $pacientes = Patient::all();
             $servicios = Servicio::all();

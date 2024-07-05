@@ -20,8 +20,8 @@
                             <th scope="col" class="px-6 py-3">Fecha</th>
                             <th scope="col" class="px-6 py-3">Hora</th>
                             <th scope="col" class="px-6 py-3">Teléfono</th>
-                            <th scope="col" class="px-6 py-3">Acción</th>
                             <th scope="col" class="px-6 py-3">Servicio</th>
+                            <th scope="col" class="px-6 py-3">Acción</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,6 +61,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __("Últimas citas") }}
+                
                 </div>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

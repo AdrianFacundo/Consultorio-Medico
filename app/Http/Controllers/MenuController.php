@@ -61,19 +61,46 @@ class MenuController extends Controller
         }
     }
 
+    public function consultas()
+    {
+        return view('doctor.consulta');
+    }
+
+    public function servicios()
+    {
+        $servicios = Servicio::all();
+        return view('doctor.servicios', compact('servicios'));
+    }
+
     public function calendario()
     {
         $events = [];
-        $agendas = Agenda::with(['patient', 'servicio'])->get();
+        
+        if (auth()->user()->tipo === 'paciente') {
+            $agendas = Agenda::with(['patient'])->where('atendida', 0)->get();
+            
+            foreach ($agendas as $agenda) {
+                $events[] = [
+                    'title' => 'Ocupado',
+                    'start' => $agenda->fecha . 'T' . $agenda->hora,
+                    'end' => $agenda->fecha . 'T' . date('H:i:s', strtotime($agenda->hora) + 3600), // Asumiendo que cada cita dura 1 hora
+                ];
+            }
+            return view('paciente.calendario', compact('events'));
+        } else {
+            $agendas = Agenda::with(['patient', 'servicio'])->where('atendida', 0)->get();
 
-        foreach ($agendas as $agenda) {
-            $events[] = [
-                'title' => $agenda->patient->nombre_completo,
-                'start' => $agenda->fecha . 'T' . $agenda->hora,
-                'end' => $agenda->fecha . 'T' . date('H:i:s', strtotime($agenda->hora) + 3600), // Asumiendo que cada cita dura 1 hora
-            ];
+            foreach ($agendas as $agenda) {
+                $events[] = [
+                    'title' => $agenda->patient->nombre_completo,
+                    'start' => $agenda->fecha . 'T' . $agenda->hora,
+                    'end' => $agenda->fecha . 'T' . date('H:i:s', strtotime($agenda->hora) + 3600), // Asumiendo que cada cita dura 1 hora
+                ];
+            }
+
+            return view('doctor.calendario', compact('events'));
         }
-
-        return view('doctor.calendario', compact('events'));
     }
+
+
 }

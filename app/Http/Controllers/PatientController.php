@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Patient;
+use App\Models\User;
 use App\Models\Servicio;
+
+use Illuminate\Support\Facades\Hash;
 
 class PatientController extends Controller
 {
@@ -19,7 +22,6 @@ class PatientController extends Controller
             $servicios = Servicio::all();
             return view('doctor.pacientes', compact('pacientes','servicios'));
         }
-         
     }
 
     public function store(Request $request)
@@ -29,13 +31,24 @@ class PatientController extends Controller
             'birthdate' => 'required|date',
             'sex' => 'required|string|in:Masculino,Femenino',
             'phone' => 'required|string|max:15',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
-        Patient::create([
+        // Crear paciente
+        $patient = Patient::create([
             'nombre_completo' => $request->name,
             'fecha_nacimiento' => $request->birthdate,
             'genero' => $request->sex,
             'telefono' => $request->phone,
+        ]);
+
+        // Crear usuario
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'tipo' => 'paciente',
         ]);
 
         return redirect()->route('patients.create')->with('success', 'Paciente registrado exitosamente.');
@@ -71,6 +84,5 @@ class PatientController extends Controller
 
         return redirect()->route('patients.create')->with('error', 'Paciente no encontrado.');
     }
-
 }
 
