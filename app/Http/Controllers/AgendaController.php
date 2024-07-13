@@ -11,13 +11,15 @@ class AgendaController extends Controller
     public function create()
     {
         if (auth()->user()->tipo === 'secretaria') {
+            $agendas = Agenda::all();
             $pacientes = Patient::all();
             $servicios = Servicio::all();
-            return view('secretaria.pacientes', compact('pacientes','servicios'));
+            return view('secretaria.dashboard', compact('agendas', 'pacientes', 'servicios'));
         } elseif (auth()->user()->tipo === 'doctor') {
+            $agendas = Agenda::all();
             $pacientes = Patient::all();
             $servicios = Servicio::all();
-            return view('doctor.pacientes', compact('pacientes','servicios'));
+            return view('doctor.dashboard', compact('agendas', 'pacientes', 'servicios'));
         }
     }
 
@@ -50,5 +52,14 @@ class AgendaController extends Controller
         $agenda->save();
 
         return redirect()->route('dashboard')->with('success', 'Cita marcada como atendida.');
+    }
+
+    public function desatendida($id)
+    {
+        $agenda = Agenda::findOrFail($id);
+        $agenda->atendida = 0;
+        $agenda->save();
+
+        return redirect()->route('dashboard')->with('success', 'Cita marcada como desatendida.');
     }
 }

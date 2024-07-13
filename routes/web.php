@@ -7,6 +7,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,6 +23,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/agendas/create', [AgendaController::class, 'create'])->name('agendas.create');
 Route::post('/agendas/store', [AgendaController::class, 'store'])->name('agendas.store');
 Route::post('/agendas/{id}/atendida', [AgendaController::class, 'atendida'])->name('agendas.atendida');
+Route::post('/agendas/{id}/desatendida', [AgendaController::class, 'desatendida'])->name('agendas.desatendida');
+
 
 //Usuarios, crear,almacenar,destruir
 Route::middleware(['auth'])->group(function () {
@@ -41,11 +44,18 @@ Route::get('/consultas', [MenuController::class, 'consultas'])->middleware(['aut
 Route::get('/servicios', [MenuController::class, 'servicios'])->middleware(['auth', 'verified'])->name('servicios');
 
 
-#Pestaña de pacientes registrar, borrar, almacenar
+#Pestaña de pacientes registrar, borrar, editar
 Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
 Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
 Route::delete('/patients/{id}', [PatientController::class, 'destroy'])->name('patients.destroy');
 Route::patch('/patients/{id}', [PatientController::class, 'update'])->name('patients.update');
+
+
+#Pestaña de productos agregar, borrar, editar
+Route::get('/productos/create', [ProductoController::class, 'create'])->name('productos.create');
+Route::post('/productos/store', [ProductoController::class, 'store'])->name('productos.store');
+Route::delete('/productos/{id}', [ProductoController::class, 'destroy'])->name('productos.destroy');
+Route::patch('/productos/{id}', [ProductoController::class, 'update'])->name('productos.update');
 
 
 

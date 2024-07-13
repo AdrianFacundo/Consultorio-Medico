@@ -6,6 +6,7 @@ use App\Models\Agenda;
 use App\Models\Servicio;
 use App\Models\Patient;
 use App\Models\User;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -47,7 +48,8 @@ class MenuController extends Controller
         if (auth()->user()->tipo === 'secretaria') {
             return view('secretaria.productos');
         } elseif (auth()->user()->tipo === 'doctor') {
-            return view('doctor.productos');
+            $productos = Producto::all();
+            return view('doctor.productos', compact('productos'));
         }
     }
 
