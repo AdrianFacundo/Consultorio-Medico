@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Agenda;
 use App\Models\Patient;
 use App\Models\Servicio;
+use App\Models\Producto;
 
 class AgendaController extends Controller
 {
@@ -53,6 +54,16 @@ class AgendaController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Cita marcada como atendida.');
     }
+
+    public function show($id)
+    {
+        $agenda = Agenda::findOrFail($id);
+        $paciente = Patient::findOrFail($agenda->id_paciente_agenda);
+        $servicio = Servicio::findOrFail($agenda->id_servicio_agenda);
+        $productos = Producto::all();
+        return view('doctor.consulta', compact('agenda', 'paciente', 'servicio','productos'));
+    }
+
 
     public function desatendida($id)
     {

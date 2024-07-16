@@ -70,9 +70,9 @@
                                     </x-dropdown>
                                 </div>
 
-                                <x-nav-link :href="route('consultas')" :active="request()->routeIs('consultas')">
+                                <!-- <x-nav-link :href="route('consultas')" :active="request()->routeIs('consultas')">
                                     {{ __('Consultas') }}
-                                </x-nav-link>
+                                </x-nav-link> -->
 
                         <!-- Paciente Navigation Links -->    
                         @elseif (auth()->user()->tipo === 'paciente')

@@ -41,7 +41,7 @@
                             <th scope="col" class="px-6 py-3">Hora</th>
                             <th scope="col" class="px-6 py-3">Teléfono</th>
                             <th scope="col" class="px-6 py-3">Servicio</th>
-                            <th scope="col" class="px-6 py-3">Atendida</th>
+                            <th scope="col" class="px-6 py-3">Ir a consulta</th>
                             
                         </tr>
                     </thead>
@@ -60,11 +60,11 @@
                                 <td class="px-6 py-4">{{ $agenda->telefono }}</td>
                                 <td class="px-6 py-4">{{ $servicio->Tipo }}</td>
                                 <td class="px-6 py-4">
-                                    <form method="POST" action="{{ route('agendas.atendida', $agenda->id) }}">
+                                    <form method="GET" action="{{ route('agendas.show', $agenda->id) }}">
                                         @csrf
                                         <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-1 rounded-full">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                                             </svg>
                                         </button>
                                     </form>

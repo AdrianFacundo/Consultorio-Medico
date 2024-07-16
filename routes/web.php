@@ -10,6 +10,8 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/citas/create', [CitaController::class, 'create'])->name('citas.create');
+Route::post('/citas/store', [CitaController::class, 'store'])->name('citas.store');
 
 //Servicios:
 Route::middleware(['auth'])->group(function () {
@@ -19,11 +21,13 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/servicios/{id}', [ServicioController::class, 'update'])->name('servicios.update');
 });
 
-//Agendar cita crear, almacenar
+//Agendar "agenda" crear, almacenar
 Route::get('/agendas/create', [AgendaController::class, 'create'])->name('agendas.create');
 Route::post('/agendas/store', [AgendaController::class, 'store'])->name('agendas.store');
 Route::post('/agendas/{id}/atendida', [AgendaController::class, 'atendida'])->name('agendas.atendida');
 Route::post('/agendas/{id}/desatendida', [AgendaController::class, 'desatendida'])->name('agendas.desatendida');
+Route::get('/agendas/{id}', [AgendaController::class, 'show'])->name('agendas.show');
+
 
 
 //Usuarios, crear,almacenar,destruir
