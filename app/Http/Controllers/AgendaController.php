@@ -6,6 +6,7 @@ use App\Models\Agenda;
 use App\Models\Patient;
 use App\Models\Servicio;
 use App\Models\Producto;
+use App\Models\Cita;
 
 class AgendaController extends Controller
 {
@@ -46,22 +47,14 @@ class AgendaController extends Controller
         return redirect()->route('agendas.create')->with('success', 'Cita agendada correctamente');
     }
 
-    public function atendida($id)
-    {
-        $agenda = Agenda::findOrFail($id);
-        $agenda->atendida = 1;
-        $agenda->save();
-
-        return redirect()->route('dashboard')->with('success', 'Cita marcada como atendida.');
-    }
-
     public function show($id)
     {
         $agenda = Agenda::findOrFail($id);
         $paciente = Patient::findOrFail($agenda->id_paciente_agenda);
         $servicio = Servicio::findOrFail($agenda->id_servicio_agenda);
         $productos = Producto::all();
-        return view('doctor.consulta', compact('agenda', 'paciente', 'servicio','productos'));
+        $citas = Cita::where('id_paciente_citas', $agenda->id_paciente_agenda)->get();
+        return view('doctor.consulta', compact('agenda', 'paciente', 'servicio','productos','citas'));
     }
 
 

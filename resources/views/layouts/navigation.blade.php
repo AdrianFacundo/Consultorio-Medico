@@ -45,6 +45,10 @@
                                     {{ __('Calendario') }}
                                 </x-nav-link>
 
+                                <x-nav-link :href="route('consultas')" :active="request()->routeIs('consultas')">
+                                    {{ __('Consultas') }}
+                                </x-nav-link>
+
                                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                                     <x-dropdown align="right" width="48">
                                         <x-slot name="trigger">

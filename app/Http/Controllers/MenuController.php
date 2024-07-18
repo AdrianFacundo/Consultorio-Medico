@@ -7,6 +7,7 @@ use App\Models\Servicio;
 use App\Models\Patient;
 use App\Models\User;
 use App\Models\Producto;
+use App\Models\Cita;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -65,7 +66,11 @@ class MenuController extends Controller
 
     public function consultas()
     {
-        return view('doctor.consulta');
+        $citas = Cita::all();
+        $pacientes = Patient::all();
+        $servicios = Servicio::all();
+        $productos = Producto::all();
+        return view('doctor.listaConsulta', compact('citas','pacientes','servicios','productos'));
     }
 
     public function servicios()
