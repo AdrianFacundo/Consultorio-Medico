@@ -27,6 +27,8 @@ class CreateCitasTable extends Migration
             $table->text('frecuencia'); 
             $table->text('duracion');
             $table->text('nota');
+            $table->decimal('total', 8, 2);
+            $table->enum('estado', ['No pagado', 'Pagado'])->default('No pagado');
             $table->timestamps();
         });
     }

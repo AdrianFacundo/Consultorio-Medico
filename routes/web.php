@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/citas/create', [CitaController::class, 'create'])->name('citas.create');
 Route::post('/citas/store', [CitaController::class, 'store'])->name('citas.store');
+Route::post('/citas/pagada', [CitaController::class, 'pagada'])->name('citas.pagada');
 
 //Servicios:
 Route::middleware(['auth'])->group(function () {

@@ -300,6 +300,4 @@
         form.action = "{{ url('/patients') }}/" + selectedOption.value;
     }
 </script>
-
-
 </x-app-layout>

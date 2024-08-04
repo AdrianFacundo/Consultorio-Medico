@@ -24,7 +24,9 @@ class Cita extends Model
         'cantidad',
         'frecuencia',
         'duracion',
-        'nota'
+        'nota',
+        'total',
+        'estado',
     ];
 
     public function paciente()

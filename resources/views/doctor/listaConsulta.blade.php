@@ -31,6 +31,9 @@
                                 Medicacion
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                Estado de pago
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 Descargar
                             </th>
                         </tr>
@@ -57,6 +60,10 @@
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $producto->producto }}
+                                </th>
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap 
+                                    {{ $cita->estado == 'Pagado' ? 'text-green-500' : ($cita->estado == 'No pagado' ? 'text-red-500' : '') }}">
+                                    {{ $cita->estado }}
                                 </th>
                                 <td class="px-6 py-4">
                                     <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-1 rounded-full">

@@ -20,6 +20,10 @@
                                 {{ __('Dashboard') }}
                             </x-nav-link>
 
+                            <x-nav-link :href="route('consultas')" :active="request()->routeIs('consultas')">
+                                {{ __('Consultas') }}        
+                            </x-nav-link>
+                            
                             <x-nav-link :href="route('pacientes')" :active="request()->routeIs('pacientes')">
                                 {{ __('Pacientes') }}
                             </x-nav-link>
@@ -28,9 +32,11 @@
                                 {{ __('Calendario') }}
                             </x-nav-link>
 
+                            <!--
                             <x-nav-link :href="route('usuarios')" :active="request()->routeIs('usuarios')">
                                 {{ __('Usuarios') }}
                             </x-nav-link>
+                            -->
                         <!-- Doctor Navigation Links -->    
                         @elseif (auth()->user()->tipo === 'doctor')
                                 <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">

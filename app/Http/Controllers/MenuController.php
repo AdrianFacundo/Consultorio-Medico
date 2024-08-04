@@ -70,7 +70,11 @@ class MenuController extends Controller
         $pacientes = Patient::all();
         $servicios = Servicio::all();
         $productos = Producto::all();
-        return view('doctor.listaConsulta', compact('citas','pacientes','servicios','productos'));
+        if (auth()->user()->tipo === 'secretaria') {
+            return view('secretaria.listaConsulta', compact('citas','pacientes','servicios','productos'));
+        } elseif (auth()->user()->tipo === 'doctor') {
+            return view('doctor.listaConsulta', compact('citas','pacientes','servicios','productos'));
+        }
     }
 
     public function servicios()
