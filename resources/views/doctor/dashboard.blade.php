@@ -13,7 +13,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100 flex justify-between items-center">
-                    <span>{{ __("Proximas citas") }}</span>
+                    <span>{{ __("Próximas citas") }}</span>
                     <div class="flex space-x-4">
                         <button data-modal-target="agendar-cita-modal" data-modal-toggle="agendar-cita-modal" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                             Agendar cita
@@ -42,11 +42,10 @@
                             <th scope="col" class="px-6 py-3">Teléfono</th>
                             <th scope="col" class="px-6 py-3">Servicio</th>
                             <th scope="col" class="px-6 py-3">Ir a consulta</th>
-                            
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($agendas->where('atendida', 0) as $agenda)
+                        @forelse($agendas->where('atendida', 0) as $agenda)
                             @php
                                 $paciente = $pacientes->find($agenda->id_paciente_agenda);
                                 $servicio = $servicios->find($agenda->id_servicio_agenda);
@@ -57,7 +56,7 @@
                                 </th>
                                 <td class="px-6 py-4">{{ $agenda->fecha }}</td>
                                 <td class="px-6 py-4">{{ $agenda->hora }}</td>
-                                <td class="px-6 py-4">{{ $agenda->telefono }}</td>
+                                <td class="px-6 py-4">{{ $paciente->telefono }}</td>
                                 <td class="px-6 py-4">{{ $servicio->Tipo }}</td>
                                 <td class="px-6 py-4">
                                     <form method="GET" action="{{ route('agendas.show', $agenda->id) }}">
@@ -70,13 +69,23 @@
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr class="bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:border-gray-600">
+                                <td colspan="6" class="px-6 py-4 text-center text-gray-700 dark:text-gray-300 font-semibold">
+                                    No hay citas próximas
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+
+
+
+    <!-- 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -124,6 +133,8 @@
             </div>
         </div>
     </div>
+    -->
+    
     <!-- Modal para agendar citas -->
     <div id="agendar-cita-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">

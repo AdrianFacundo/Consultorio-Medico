@@ -36,8 +36,8 @@
                     </div>
                 </div>
             </div>
-             <!-- Card for Diagnosis and Previous Treatment -->
-             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
+            <!-- Card for Diagnosis and Previous Treatment -->
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="bg-white shadow-md rounded-lg p-6">
                         <div class="flex justify-between items-center mb-4">
@@ -58,10 +58,10 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach($citas as $cita)
+                                @forelse($citas as $cita)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            {{ $cita->fecha}}
+                                            {{ $cita->fecha }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $cita->motivo_consulta }}
@@ -70,13 +70,19 @@
                                             {{ $cita->producto->producto }}
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr class="bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:border-gray-600">
+                                        <td colspan="3" class="px-6 py-4 text-center text-gray-700 dark:text-gray-300 font-semibold">
+                                            Sin tratamiento previo
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>
+
             <form method="POST" action="{{ route('citas.store') }}">
                 @csrf
                 <input type="hidden" name="id_agenda" value="{{ $agenda->id }}">
