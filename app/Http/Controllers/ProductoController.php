@@ -27,11 +27,18 @@ class ProductoController extends Controller
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imagePath = 'images/Noimg.png';
+        $defaultImage = 'images/Noimg.png';
+        $imagePath = $defaultImage;
+
         if ($request->hasFile('imagen')) {
             $filename = $request->file('imagen')->getClientOriginalName();
             $path = $request->file('imagen')->storeAs('images', $filename, 'public');
-            $imagePath = 'images/' . $filename;
+            $imagePath = 'storage/images/' . $filename;
+
+            // Comprueba si el archivo realmente se subió y existe en el sistema de archivos
+            if (!file_exists(public_path($imagePath))) {
+                $imagePath = $defaultImage;
+            }
         }
 
         Producto::create([
@@ -43,6 +50,7 @@ class ProductoController extends Controller
 
         return redirect()->back()->with('success', 'Producto agregado con éxito.');
     }
+
 
 
     public function destroy($id)

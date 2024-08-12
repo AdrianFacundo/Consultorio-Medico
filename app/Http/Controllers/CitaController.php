@@ -9,6 +9,7 @@ use App\Models\Servicio;
 use App\Models\Producto;
 use App\Models\Cita;
 use App\Models\Agenda;
+use PDF;
 
 class CitaController extends Controller
 {
@@ -98,4 +99,26 @@ class CitaController extends Controller
 
         return redirect()->route('citas.create')->with('success', 'El pago ha sido registrado exitosamente.');
     }
+
+    public function pdf(Request $request)
+    {
+        $paciente_id = $request->input('paciente_id');
+
+        // Obtener todas las citas del paciente junto con sus relaciones
+        $citas = Cita::with(['paciente', 'servicio', 'producto'])
+                    ->where('id_paciente_citas', $paciente_id)
+                    ->get();
+
+        $data = [
+            'title' => 'Historial de Citas',
+            'citas' => $citas,
+            'paciente' => $citas->first() ? $citas->first()->paciente : null // Obtener el paciente
+        ];
+
+        $pdf = PDF::loadView('historial', $data);
+        return $pdf->download('archivo.pdf');
+    }
+
+
+
 }

@@ -24,7 +24,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($agendas->where('atendida', 0) as $agenda)
+                        @forelse($agendas->where('atendida', 0) as $agenda)
                             @php
                                 $paciente = $pacientes->find($agenda->id_paciente_agenda);
                             @endphp
@@ -36,7 +36,13 @@
                                     {{ $agenda->hora }}
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr class="bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:border-gray-600">
+                                <td colspan="2" class="px-6 py-4 text-center text-gray-700 dark:text-gray-300 font-semibold">
+                                    ¡No hay citas proximas, reserva ahora!
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

@@ -48,7 +48,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($citas as $cita)
+                        @forelse($citas as $cita)
                             @php
                                 $paciente = $pacientes->find($cita->id_paciente_citas);
                                 $servicio = $servicios->find($cita->id_servicio_citas);
@@ -72,7 +72,13 @@
                                     {{ $cita->estado }}
                                 </th>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr class="bg-gray-100 border border-gray-300 dark:bg-gray-700 dark:border-gray-600">
+                                <td colspan="6" class="px-6 py-4 text-center text-gray-700 dark:text-gray-300 font-semibold">
+                                    Sin consultas previas.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
