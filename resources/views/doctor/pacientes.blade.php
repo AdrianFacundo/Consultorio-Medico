@@ -2,7 +2,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
 </head>
 <x-app-layout>
     
@@ -100,14 +102,14 @@
                 <!-- Nombre -->
                 <div>
                     <x-input-label for="name" :value="__('Nombre completo')" />
-                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Ingresa el nombre completo" pattern="[a-zA-Z\s]+" title="Solo se permiten letras" />
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
 
                 <!-- Fecha de Nacimiento -->
                 <div class="mt-4">
                     <x-input-label for="birthdate" :value="__('Fecha de nacimiento')" />
-                    <x-text-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')" required />
+                    <x-text-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')" required placeholder="Ingresa la fecha de nacimiento" />
                     <x-input-error :messages="$errors->get('birthdate')" class="mt-2" />
                 </div>
 
@@ -124,28 +126,27 @@
                 <!-- Teléfono -->
                 <div class="mt-4">
                     <x-input-label for="phone" :value="__('Teléfono')" />
-                    <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone')" required />
+                    <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone')" required placeholder="Ingresa el número de teléfono" pattern="[0-9]+" title="Solo se permiten números" />
                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
-
                 <!-- Email -->
                 <div class="mt-4">
                     <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                    <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required placeholder="Ingresa el correo electrónico" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
                 <!-- Password -->
                 <div class="mt-4">
                     <x-input-label for="password" :value="__('Password')" />
-                    <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+                    <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" placeholder="Ingresa la contraseña" />
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
 
                 <!-- Confirm Password -->
                 <div class="mt-4">
                     <x-input-label for="password_confirmation" :value="__('Confirmar Password')" />
-                    <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+                    <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Confirma la contraseña" />
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
 
@@ -216,7 +217,7 @@
                 <!-- Teléfono -->
                 <div class="mt-4">
                     <x-input-label for="edit-phone" :value="__('Teléfono')" />
-                    <x-text-input id="edit-phone" class="block mt-1 w-full" type="tel" name="phone" required />
+                    <x-text-input id="edit-phone" class="block mt-1 w-full" type="tel" name="phone" required placeholder="Ingresa el número de teléfono"/>
                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
 
@@ -229,6 +230,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Modal para eliminar pacientes -->
 <div id="eliminar-cita-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -265,7 +267,7 @@
                 </div>
 
                 <div class="flex items-center justify-end mt-4">
-                    <button type="submit" class="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                    <button type="submit" id="delete-patient-button" class="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                         Eliminar
                     </button>
                 </div>
@@ -273,6 +275,60 @@
         </div>
     </div>
 </div>
+
+<script>
+        document.getElementById('delete-patient-form').addEventListener('submit', function(event) {
+            var select = document.getElementById('delete_patient_id');
+            if (select.value === '') {
+                event.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, seleccione un paciente antes de continuar.',
+                    confirmButtonColor: '#1D4ED8' // Este es el color bg-blue-700
+                });
+            }
+        });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+
+    // Permitir solo letras en el campo de nombre
+    nameInput.addEventListener('keypress', function (e) {
+        const char = String.fromCharCode(e.which);
+        if (!/[a-zA-Z\s]/.test(char)) {
+            e.preventDefault();
+        }
+    });
+
+    // Permitir solo números en el campo de teléfono
+    phoneInput.addEventListener('keypress', function (e) {
+        const char = String.fromCharCode(e.which);
+        if (!/[0-9]/.test(char)) {
+            e.preventDefault();
+        }
+    });
+
+    // Evitar pegar texto no permitido en el campo de nombre
+    nameInput.addEventListener('paste', function (e) {
+        const paste = (e.clipboardData || window.clipboardData).getData('text');
+        if (!/^[a-zA-Z\s]*$/.test(paste)) {
+            e.preventDefault();
+        }
+    });
+
+    // Evitar pegar texto no permitido en el campo de teléfono
+    phoneInput.addEventListener('paste', function (e) {
+        const paste = (e.clipboardData || window.clipboardData).getData('text');
+        if (!/^[0-9]*$/.test(paste)) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
 
 <!-- Codigo JS necesario para eliminar paciente -->
 <script>

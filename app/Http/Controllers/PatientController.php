@@ -58,11 +58,16 @@ class PatientController extends Controller
     {
         $patient = Patient::find($id);
         if ($patient) {
+            $user = User::where('name', $patient->nombre_completo)->first();
+            if ($user) {
+                $user->delete();
+            }
             $patient->delete();
-            return redirect()->route('patients.create')->with('success', 'Paciente eliminado exitosamente.');
+            return redirect()->route('patients.create')->with('success', 'Paciente y usuario eliminados exitosamente.');
         }
         return redirect()->route('patients.create')->with('error', 'Paciente no encontrado.');
     }
+    
 
     public function update(Request $request, $id)
     {

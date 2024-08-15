@@ -32,14 +32,20 @@ class ProductoController extends Controller
 
         if ($request->hasFile('imagen')) {
             $filename = $request->file('imagen')->getClientOriginalName();
-            $path = $request->file('imagen')->storeAs('images', $filename, 'public');
-            $imagePath = 'storage/images/' . $filename;
-
+            
+            // Define la ruta completa donde se guardará la imagen en la carpeta public/images
+            $destinationPath = public_path('images');
+            $request->file('imagen')->move($destinationPath, $filename);
+            
+            // Genera la ruta de la imagen para usarla en tu aplicación
+            $imagePath = 'images/' . $filename;
+        
             // Comprueba si el archivo realmente se subió y existe en el sistema de archivos
             if (!file_exists(public_path($imagePath))) {
                 $imagePath = $defaultImage;
             }
         }
+        
 
         Producto::create([
             'producto' => $request->producto,
@@ -73,10 +79,18 @@ class ProductoController extends Controller
 
         if ($request->hasFile('imagen')) {
             $filename = $request->file('imagen')->getClientOriginalName();
-            $path = $request->file('imagen')->storeAs('images', $filename, 'public');
+            
+            // Define la ruta completa donde se guardará la imagen en la carpeta public/images
+            $destinationPath = public_path('images');
+            $request->file('imagen')->move($destinationPath, $filename);
+            
+            // Genera la ruta de la imagen para usarla en tu aplicación
             $imagePath = 'images/' . $filename;
+            
+            // Actualiza la propiedad muestra del objeto producto con la ruta de la imagen
             $producto->muestra = $imagePath;
         }
+        
 
         $producto->save();
 

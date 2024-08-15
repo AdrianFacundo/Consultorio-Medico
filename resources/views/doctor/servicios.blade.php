@@ -1,6 +1,8 @@
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <x-app-layout>
     <div class="py-12">
@@ -217,6 +219,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('delete-servicio-form').addEventListener('submit', function(event) {
+        var select = document.getElementById('delete_servicio_id');
+        if (select.value === '') {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, seleccione un servicio antes de continuar.',
+                confirmButtonColor: '#1D4ED8' // Este es el color bg-blue-700
+            });
+        }
+    });
+</script>
+
 
 <script>
     document.getElementById('delete_servicio_id').addEventListener('change', function() {

@@ -109,16 +109,24 @@ class CitaController extends Controller
                     ->where('id_paciente_citas', $paciente_id)
                     ->get();
 
+        // Obtener el paciente
+        $paciente = $citas->first() ? $citas->first()->paciente : null;
+
+        // Preparar los datos para la vista del PDF
         $data = [
             'title' => 'Historial de Citas',
             'citas' => $citas,
-            'paciente' => $citas->first() ? $citas->first()->paciente : null // Obtener el paciente
+            'paciente' => $paciente
         ];
 
+        // Generar el nombre del archivo con el nombre del paciente
+        $nombreArchivo = $paciente ? 'Historial_'.$paciente->nombre_completo.'.pdf' : 'Historial.pdf';
+
+        // Crear el PDF
         $pdf = PDF::loadView('historial', $data);
-        return $pdf->download('archivo.pdf');
+
+        // Descargar el PDF con el nombre del paciente
+        return $pdf->download($nombreArchivo);
     }
-
-
 
 }

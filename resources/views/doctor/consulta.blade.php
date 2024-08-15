@@ -204,6 +204,15 @@
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         placeholder="Cantidad">
                                 </div>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const cantidadInput = document.getElementById('cantidad');
+
+                                        cantidadInput.addEventListener('input', function () {
+                                            this.value = this.value.replace(/[^0-9]/g, '');
+                                        });
+                                    });
+                                </script>
                                 <div>
                                     <label for="frecuencia" class="block text-sm font-medium text-gray-700">Frecuencia</label>
                                     <input type="text" id="frecuencia" name="frecuencia"
@@ -233,4 +242,57 @@
 
         </div>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const estaturaInput = document.getElementById('estatura');
+        const pesoInput = document.getElementById('peso');
+        const temperaturaInput = document.getElementById('temperatura');
+        const tensionInput = document.getElementById('tension');
+        const oxigenoInput = document.getElementById('oxigeno');
+        const frecuenciaCardiacaInput = document.getElementById('frecuencia_cardiaca');
+
+        estaturaInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9.]/g, '');
+            if (!/^\d{0,1}(\.\d{0,2})?$/.test(this.value)) {
+                this.value = this.value.slice(0, -1);
+            }
+        });
+
+        pesoInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9.]/g, '');
+            if (!/^\d{0,3}(\.\d{0,2})?$/.test(this.value)) {
+                this.value = this.value.slice(0, -1);
+            }
+        });
+
+        temperaturaInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (!/^\d{0,2}$/.test(this.value)) {
+                this.value = this.value.slice(0, -1);
+            }
+        });
+
+        tensionInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9/]/g, '');
+            if (!/^\d{0,3}(\/\d{0,3})?$/.test(this.value)) {
+                this.value = this.value.slice(0, -1);
+            }
+        });
+
+        oxigenoInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (!/^\d{0,2}$/.test(this.value)) {
+                this.value = this.value.slice(0, -1);
+            }
+        });
+
+        frecuenciaCardiacaInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (!/^\d{0,3}$/.test(this.value)) {
+                this.value = this.value.slice(0, -1);
+            }
+        });
+    });
+</script>
+
 </x-app-layout>

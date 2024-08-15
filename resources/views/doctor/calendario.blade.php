@@ -19,6 +19,7 @@
     @push('scripts')
         <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var dayGridEl = document.getElementById('dayGridCalendar');
@@ -26,6 +27,7 @@
 
                 // Day Grid Calendar
                 var dayGridCalendar = new FullCalendar.Calendar(dayGridEl, {
+                    locale: 'es', // Establecer el idioma a español
                     initialView: 'dayGridMonth',
                     headerToolbar: {
                         left: 'prev,next',
@@ -51,6 +53,7 @@
 
                 // Time Grid Calendar
                 var timeGridCalendar = new FullCalendar.Calendar(timeGridEl, {
+                    locale: 'es', // Establecer el idioma a español
                     initialView: 'timeGridWeek',
                     headerToolbar: {
                         left: '',
@@ -80,6 +83,9 @@
         <style>
             .fc {
                 font-size: 0.8em;
+            }
+            .fc-toolbar-title {
+                text-transform: capitalize; /* Capitaliza la primera letra del título */
             }
         </style>
     @endpush

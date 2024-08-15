@@ -1,6 +1,8 @@
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
 </head>
 <x-app-layout>
     <div class="py-12">
@@ -102,7 +104,7 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form method="POST" action="{{ route('citas.pagada') }}" class="p-4 md:p-5">
+                <form method="POST" action="{{ route('citas.pagada') }}" class="p-4 md:p-5" id="delete-patient-form">
                     @csrf
                     <!-- Nombre del Paciente -->
                     <div class="mt-4">
@@ -115,7 +117,7 @@
                                         $paciente = $pacientes->find($cita->id_paciente_citas);
                                     @endphp
                                     @if($paciente)
-                                        <option value="{{ $paciente->id }}" data-total="{{ $cita->total }}">{{ $paciente->nombre_completo }}</option>
+                                        <option value="{{ $paciente->id }}" data-total="{{ $cita->total }}">{{ $paciente->nombre_completo }}-{{ $cita->fecha }}</option>
                                     @endif
                                 @endif
                             @endforeach
@@ -161,4 +163,18 @@
             </div>
         </div>
     </div> 
+    <script>
+        document.getElementById('delete-patient-form').addEventListener('submit', function(event) {
+            var select = document.getElementById('delete_patient_id');
+            if (select.value === '') {
+                event.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, seleccione un paciente antes de continuar.',
+                    confirmButtonColor: '#1D4ED8' // Este es el color bg-blue-700
+                });
+            }
+        });
+    </script>
 </x-app-layout>

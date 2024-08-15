@@ -1,6 +1,7 @@
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 </head>
 <x-app-layout>
     <div class="py-12">
@@ -98,14 +99,20 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form method="GET" action="{{ route('citas.pdf') }}" class="p-4 md:p-5">
+                <form id="delete-patient-form" method="GET" action="{{ route('citas.pdf') }}" class="p-4 md:p-5">
                     @csrf
                     <!-- Nombre del Paciente -->
                     <div class="mt-4">
                         <x-input-label for="paciente_id" :value="__('Nombre del Paciente')" />
                         <select id="paciente_id" name="paciente_id" class="block mt-1 w-full">
                             <option value="">Seleccione un paciente</option>
-                            @foreach($pacientes as $paciente)
+                            @php
+                                $pacientes_unicos = $citas->unique('id_paciente_citas');
+                            @endphp
+                            @foreach($pacientes_unicos as $cita)
+                                @php
+                                    $paciente = $pacientes->find($cita->id_paciente_citas);
+                                @endphp
                                 <option value="{{ $paciente->id }}">{{ $paciente->nombre_completo }}</option>
                             @endforeach
                         </select>
@@ -123,6 +130,21 @@
                 </form>
             </div>
         </div>
-    </div> 
+    </div>
+
+    <script>
+        document.getElementById('crud-modal').addEventListener('submit', function(event) {
+            var select = document.getElementById('paciente_id');
+            if (select.value === '') {
+                event.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, seleccione un paciente antes de continuar.',
+                    confirmButtonColor: '#1D4ED8' // Este es el color bg-blue-700
+                });
+            }
+        });
+    </script>
 
 </x-app-layout>

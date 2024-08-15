@@ -174,6 +174,14 @@
                         <x-input-error :messages="$errors->get('fecha')" class="mt-2" />
                     </div>
 
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var today = new Date().toISOString().split('T')[0];
+                            document.getElementById('fecha').setAttribute('min', today);
+                        });
+                    </script>
+
+
                     <!-- Hora -->
                     <div class="mt-4">
                         <x-input-label for="hora" :value="__('Hora')" />
