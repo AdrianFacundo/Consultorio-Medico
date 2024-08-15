@@ -10,6 +10,8 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/api/available-hours', [AgendaController::class, 'getAvailableHours']);
+
 Route::get('/citas/create', [CitaController::class, 'create'])->name('citas.create');
 Route::post('/citas/store', [CitaController::class, 'store'])->name('citas.store');
 Route::post('/citas/pagada', [CitaController::class, 'pagada'])->name('citas.pagada');

@@ -26,26 +26,36 @@ class AgendaController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'id_paciente_agenda' => 'required',
-            'id_servicio_agenda' => 'required', // Validar el servicio
-            'fecha' => 'required|date',
-            'hora' => 'required',
-            'telefono' => 'required',
-        ]);
+{
+    $request->validate([
+        'id_paciente_agenda' => 'required',
+        'id_servicio_agenda' => 'required', // Validar el servicio
+        'fecha' => 'required|date',
+        'hora' => 'required',
+        'telefono' => 'required',
+    ]);
 
-        Agenda::create([
-            'id_paciente_agenda' => $request->id_paciente_agenda,
-            'id_servicio_agenda' => $request->id_servicio_agenda, // Guardar el servicio
-            'fecha' => $request->fecha,
-            'hora' => $request->hora,
-            'telefono' => $request->telefono,
-            'atendida' => false,
-        ]);
+    // Validar si ya existe una cita en la misma fecha y hora
+    $existingAppointment = Agenda::where('fecha', $request->fecha)
+                                 ->where('hora', $request->hora)
+                                 ->first();
 
-        return redirect()->route('agendas.create')->with('success', 'Cita agendada correctamente');
+    if ($existingAppointment) {
+        return redirect()->route('agendas.create')->withErrors(['hora' => 'Ya existe una cita reservada para esa fecha y hora.']);
     }
+
+    Agenda::create([
+        'id_paciente_agenda' => $request->id_paciente_agenda,
+        'id_servicio_agenda' => $request->id_servicio_agenda, // Guardar el servicio
+        'fecha' => $request->fecha,
+        'hora' => $request->hora,
+        'telefono' => $request->telefono,
+        'atendida' => false,
+    ]);
+
+    return redirect()->route('agendas.create')->with('success', 'Cita agendada correctamente');
+}
+
 
     public function show($id)
     {
@@ -66,4 +76,23 @@ class AgendaController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Cita marcada como desatendida.');
     }
+
+    public function getAvailableHours(Request $request)
+{
+    $fecha = $request->query('fecha');
+
+    // Obtener todas las horas ocupadas en la fecha especificada
+    $occupiedHours = Agenda::where('fecha', $fecha)->pluck('hora')->toArray();
+
+    // Horas posibles (8:00 a 15:00)
+    $allHours = [];
+    for ($i = 8; $i <= 15; $i++) {
+        $allHours[] = $i . ':00';
+    }
+
+    // Filtrar horas disponibles
+    $availableHours = array_diff($allHours, $occupiedHours);
+
+    return response()->json(['availableHours' => $availableHours]);
+}
 }

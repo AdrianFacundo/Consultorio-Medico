@@ -170,16 +170,36 @@
                     <!-- Fecha -->
                     <div class="mt-4">
                         <x-input-label for="fecha" :value="__('Fecha')" />
-                        <x-text-input id="fecha" class="block mt-1 w-full" type="date" name="fecha" :value="old('fecha')" required />
+                        <x-text-input id="fecha" class="block mt-1 w-full" type="date" name="fecha" :value="old('fecha')" required onchange="fetchAvailableHours()" />
                         <x-input-error :messages="$errors->get('fecha')" class="mt-2" />
                     </div>
 
                     <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            var today = new Date().toISOString().split('T')[0];
-                            document.getElementById('fecha').setAttribute('min', today);
-                        });
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var today = new Date().toISOString().split('T')[0];
+                        document.getElementById('fecha').setAttribute('min', today);
+                    });
+
+                    function fetchAvailableHours() {
+                        var fecha = document.getElementById('fecha').value;
+                        if (!fecha) return;
+
+                        fetch(`/api/available-hours?fecha=${fecha}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                var horaSelect = document.getElementById('hora');
+                                horaSelect.innerHTML = '';
+
+                                data.availableHours.forEach(hour => {
+                                    var option = document.createElement('option');
+                                    option.value = hour;
+                                    option.textContent = hour;
+                                    horaSelect.appendChild(option);
+                                });
+                            });
+                    }
                     </script>
+
 
 
                     <!-- Hora -->
